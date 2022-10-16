@@ -8,18 +8,98 @@
 </head>
 <body>
     <div class="container">
+        <h1 id="tragger">Oswald Tragger Day 1 </h1>
+        <h1>Wes bos Js-30 Days series <br> Day 1 - Drumkit</h1>
         <div class="keys_container">
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
-            <div class="keys"></div>
+            <div class="keys">A</div>
+            <div class="keys">B</div>
+            <div class="keys">C</div>
+            <div class="keys">D</div>
+            <div class="keys">E</div>
+            <div class="keys">F</div>
+            <div class="keys">G</div>
+            <div class="keys">H</div>
+            <div class="keys">I</div>
+            <div class="keys">J</div>
         </div>
     </div>
 </body>
 </html>
+
+
+<style>
+    html, body, *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container{
+        border: 1px solid black;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url('/img/pexels-asiama-junior-6568190.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        text-align: center;
+    }
+    .container>h1{
+        color: white;
+        padding: 10px;
+    }
+    #tragger{
+        font-family: 'Aloevera';
+        font-size: 3.5rem;
+        color: rgb(255, 255, 255);
+    }
+    .keys_container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .keys{
+        padding: 20px;
+        margin: 10px;
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bolder;
+        border-radius:5px;
+        background-color: rgba(199, 199, 199, 0.315);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .keys:hover{
+        border: 1px solid grey;
+    }
+    .bump{
+        animation: bounce .13s 0s forwards cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    @keyframes bounce {
+        0%, 100%{
+            transform: scale(1);
+        }
+        50%{
+            transform: scale(1.2);
+            border: 2px solid blueviolet;
+        }
+    }
+
+</style>
+
+<script>
+    let el = document.querySelector(".keys");
+    el.addEventListener("click",function(e){
+        console.log(e);
+        e.target.classList.add('bump');
+    });
+</script>
