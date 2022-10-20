@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drum kit</title>
 </head>
+
 <body>
     <div class="container">
         <h1 id="tragger">Oswald Tragger Day 1 </h1>
         <h1>Wes bos Js-30 Days series <br> Day 1 - Drumkit</h1>
         <div class="keys_container">
-            <div class="keys">A</div>
-            <div class="keys">B</div>
-            <div class="keys">C</div>
-            <div class="keys">D</div>
-            <div class="keys">E</div>
-            <div class="keys">F</div>
-            <div class="keys">G</div>
-            <div class="keys">H</div>
-            <div class="keys">I</div>
-            <div class="keys">J</div>
+            <div data-key="65" class="keys">A</div>
+            <div data-key="83" class="keys">S</div>
+            <div data-key="68" class="keys">D</div>
+            <div data-key="70" class="keys">F</div>
+            <div data-key="71" class="keys">G</div>
+            <div data-key="72" class="keys">H</div>
+            <div data-key="74" class="keys">J</div>
+            <div data-key="75" class="keys">K</div>
+            <div data-key="76" class="keys">L</div>
         </div>
+        <audio data-key="65" src="sound/clap.wav"></audio>
+        <audio data-key="83" src="sound/hihat.wav"></audio>
+        <audio data-key="68" src="sound/kick.wav"></audio>
+        <audio data-key="70" src="sound/openhat.wav"></audio>
+        <audio data-key="71" src="sound/boom.wav"></audio>
+        <audio data-key="72" src="sound/ride.wav"></audio>
+        <audio data-key="74" src="sound/snare.wav"></audio>
+        <audio data-key="75" src="sound/tom.wav"></audio>
+        <audio data-key="76" src="sound/tink.wav"></audio>
     </div>
 </body>
+
 </html>
 
 
 <style>
-    html, body, *{
+    html,
+    body,
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
 
-    .container{
+    .container {
         border: 1px solid black;
         width: 100vw;
         height: 100vh;
@@ -48,22 +61,26 @@
         background-repeat: no-repeat;
         text-align: center;
     }
-    .container>h1{
+
+    .container>h1 {
         color: white;
         padding: 10px;
     }
-    #tragger{
+
+    #tragger {
         font-family: 'Aloevera';
         font-size: 3.5rem;
         color: rgb(255, 255, 255);
     }
-    .keys_container{
+
+    .keys_container {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
     }
-    .keys{
+
+    .keys {
         padding: 20px;
         margin: 10px;
         width: 70px;
@@ -72,34 +89,74 @@
         cursor: pointer;
         font-size: 20px;
         font-weight: bolder;
-        border-radius:5px;
+        border-radius: 5px;
         background-color: rgba(199, 199, 199, 0.315);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
-    .keys:hover{
+
+    .keys:hover {
         border: 1px solid grey;
     }
-    .bump{
+
+    .bump {
         animation: bounce .13s 0s forwards cubic-bezier(0.075, 0.82, 0.165, 1);
     }
+
     @keyframes bounce {
-        0%, 100%{
+
+        0%,
+        100% {
             transform: scale(1);
         }
-        50%{
+
+        50% {
             transform: scale(1.2);
             border: 2px solid blueviolet;
         }
     }
-
 </style>
 
 <script>
-    let el = document.querySelector(".keys");
-    el.addEventListener("click",function(e){
-        console.log(e);
-        e.target.classList.add('bump');
-    });
+    function removeTransition(e) {
+        if (e.propertyName !== 'transform') return;
+        e.target.classList.remove('bump');
+    }
+
+    function playSound(e) {
+        
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        if (!audio) return;
+
+        key.classList.add('bump');
+        audio.currentTime = 0;
+        audio.play();
+    }
+
+
+
+    // map out the different keys on webpage
+    const keys = Array.from(document.querySelectorAll('.keys'));
+
+    //append an event listenner to each of them
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+    keys.forEach(key => key.addEventListener('click', (e)=>{
+        //console.log(e.target.attributes['data-key']);
+        let data_key = e.target.attributes[0].nodeValue;
+        const audio = document.querySelector(`audio[data-key="${data_key}"]`);
+        const key = document.querySelector(`div[data-key="${data_key}"]`);
+        if (!audio) return;
+
+        key.classList.add('bump');
+        audio.currentTime = 0;
+        audio.play();
+    }
+    ));
+
+
+    //listen to any touch pressed on the keyboard
+    window.addEventListener('keydown', playSound);
 </script>
